@@ -12,6 +12,7 @@ class PostList extends Component {
     }
 
     componentDidMount() {
+        console.log(this.props);
         axios.get('https://jsonplaceholder.typicode.com/posts')
         .then(response => {
             console.log(response)
@@ -22,6 +23,34 @@ class PostList extends Component {
             this.setState({errorMsg: 'Error retreiving data'})
         })
         
+    }
+
+    async DeletePost(id) {
+        let post = {};
+        let postList = [];
+        // let postData = [];
+        // let post1 = {};
+        await axios.delete('https://jsonplaceholder.typicode.com/posts/'+id)
+        post = await axios.get('https://jsonplaceholder.typicode.com/posts/'+id)
+        postList =await axios.get('https://jsonplaceholder.typicode.com/posts/');
+        // post = await postList[id]
+        // postList = await postList.push(item => {
+        //     return item.id !== id
+        // })
+        console.log(post);
+        console.log(postList)
+        this.setState({
+            posts: postList
+        })
+        // console.log(post1);
+        // .then(response => {
+        //     console.log(response)
+        //     // this.setState({posts: response.data})
+        // })
+        // .catch(error => {
+        //     console.log(error)
+        //     this.setState({errorMsg: 'Error retreiving data'})
+        // })
     }
 
     render() {
@@ -36,18 +65,24 @@ class PostList extends Component {
                         <th>id</th>
                         <th>title</th>
                         <th>body</th>
+                        {/* <th>operate</th> */}
                     </tr>
                   </thead>
                   <tbody>
                     {
                         posts.length ?
                         posts.map(post =>
-                        <tr key={post.id}>
-                            <td>{post.userId}</td>
-                            <td>{post.id}</td>
-                            <td>{post.title}</td>
-                            <td>{post.body}</td>
-                        </tr>):
+                        
+                            <tr key={post.id}>
+                                <td>{post.userId}</td>
+                                <td>{post.id}</td>
+                                <td>{post.title}</td>
+                                <td>{post.body}</td>
+                                <td><button onClick={() => this.DeletePost(post.id)}>delete</button></td>
+                            </tr>
+                            
+                        )
+                        :
                         null
                     }
                   </tbody>  

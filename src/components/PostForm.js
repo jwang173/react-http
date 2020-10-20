@@ -32,7 +32,7 @@ class PostForm extends Component {
     render() {
         const { userId, title, body } = this.state
         return (
-            <div>
+            <div className="NewPost">
                 <form onSubmit={this.submitHandler}>
                     <div>
                         <input 
